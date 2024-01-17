@@ -6,20 +6,29 @@ import boto3
 import json
 import sqlalchemy
 from sqlalchemy import text
+from decouple import config
 
 
 random.seed(100)
+
+
+HOST = config('HOST')
+USER = config('USER')
+PASSWORD = config('PASSWORD')
+DATABASE = config('DATABASE')
+PORT = config('PORT')
+
 
 
 class AWSDBConnector:
 
     def __init__(self):
 
-        self.HOST = "pinterestdbreadonly.cq2e8zno855e.eu-west-1.rds.amazonaws.com"
-        self.USER = 'project_user'
-        self.PASSWORD = ':t%;yCY3Yjg'
-        self.DATABASE = 'pinterest_data'
-        self.PORT = 3306
+        self.HOST = HOST
+        self.USER = USER
+        self.PASSWORD = PASSWORD
+        self.DATABASE = DATABASE
+        self.PORT = PORT
         
     def create_db_connector(self):
         engine = sqlalchemy.create_engine(f"mysql+pymysql://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DATABASE}?charset=utf8mb4")
