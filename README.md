@@ -14,7 +14,7 @@
     - Next move to EC2 instances & search for userID to find associated EC2 instance, here under details you will see a field titled ```Key pair assigned at launch```, ensure local key matches this
 
 - Once credentials have been added to local project & hidden:
-    - SSH into AWS EC2: recommended to use remote explorer extension for AWS, copy recommended command into prompt but instead of root, connect with ec2-user before @
+    - SSH into AWS EC2: recommended to use remote explorer extension for VSCode, copy recommended command into prompt but instead of root, connect with ec2-user before @
     - example: ssh -i "xxxxxxx-key-pair.pem" ec2-user@ec2-xxxxxxxx.compute-1.amazonaws.com
 
 ## Initial EC2 Dependancies:
@@ -27,4 +27,6 @@
         - `wget https://archive.apache.org/dist/kafka/2.8.1/kafka_2.12-2.8.1.tgz`
         - `tar -xzf kafka_2.12-2.8.1.tgz`
         - `rm kafka_2.12-2.8.1.tgz`
+    - 
+
 
