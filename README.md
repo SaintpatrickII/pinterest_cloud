@@ -76,5 +76,28 @@
     - On successful topic creation you'll be met with this message:
     `Created topic <UserID>.geo.`
 
+## Setting Up Connector:
+
+- This acts as our _sink connector_ -> Allows connection & data transfer from kafka to S3 in this case
+- We will first need to find our bucket on aws, under naming convention `<UserID>-bucket`
+
+    - Move back to home directory of user & run following commands:
+    - //assume admin user privileges
+      `sudo -u ec2-user -i`
+    - //create directory where we will save our connector 
+      `mkdir kafka-connect-s3 && cd kafka-connect-s3`
+    - //download connector from Confluent
+      `wget https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-s3/versions/10.0.3/confluentinc-kafka-connect-s3-10.0.3.zip`
+    - //copy connector to our S3 bucket
+      `aws s3 cp ./confluentinc-kafka-connect-s3-10.0.3.zip s3://<BUCKET_NAME>/kafka-connect-s3/`
+
+- Great we now have a connector established but not configured, the final command above also sends a copy of this to our S3 bucket
+- next step is to configure this connector:
+
+    - On `MSK Connect -> Customised Plugin`, lets create the plugin!
+    - Search for your bucket, iterate through the folders till you find a null, this is where we will make the plugin
+    - Plugin must follow `<your_UserId>-plugin` syntax
+    - Under `MSK Connect -> Connectors` lets press the Create Connector
+    - Copy script from notebook, add USERID, and bucket field, then at the bottom of the page add your EC2-Role
 
 
