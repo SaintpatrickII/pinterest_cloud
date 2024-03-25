@@ -131,3 +131,9 @@ Lets break this!
         - Run `./kafka-rest-start /home/ec2-user/confluent-7.2.0/etc/kafka-rest/kafka-rest.properties`
         - Send Payload to API, check for 200 response & bucket to be populated with topic
 
+## Batch Processing: Databricks:
+
+- Import pysparksql & urllib, Pull credentials from url & query then (Don't show them xoxo)
+- SET databricks formatter to False
+- Create mou nt parsing in s3 bucket credentials
+- Read & display dataframes based on three topic folders within S3
