@@ -39,6 +39,9 @@ new_connector = AWSDBConnector()
 
 
 def run_infinite_post_data_loop():
+    invoke_url = "https://fpc8p1qglc.execute-api.us-east-1.amazonaws.com/dev/topics/"
+    headers = {'Content-Type': 'application/vnd.kafka.json.v2+json'}
+    topics = ["12baff1ff207.pin", "12baff1ff207.geo", "12baff1ff207.user"]
     while True:
         sleep(random.randrange(0, 2))
         random_row = random.randint(0, 11000)
@@ -67,6 +70,34 @@ def run_infinite_post_data_loop():
             print(pin_result)
             print(geo_result)
             print(user_result)
+            pin_res = json.dumps({
+                "records": [
+                    {
+                    "value": pin_result
+                    }
+                ]
+            }, default=str)
+            geo_res = json.dumps({
+                "records": [
+                    {
+                    "value": geo_result
+                    }
+                ]
+            }, default=str)
+            user_res = json.dumps({
+                "records": [
+                    {
+                    "value": geo_result
+                    }
+                ]
+            }, default=str)
+            
+            pin_response = requests.request("POST", invoke_url + topics[0], headers=headers, data=pin_res)
+            geo_response = requests.request("POST", invoke_url + topics[1], headers=headers, data=geo_res)
+            user_response = requests.request("POST", invoke_url + topics[2], headers=headers, data=user_res)
+            # print(pin_response.response)
+
+
 
 
 if __name__ == "__main__":

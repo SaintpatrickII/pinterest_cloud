@@ -74,7 +74,7 @@
     `./kafka-topics.sh --bootstrap-server <BootstrapServerString> --command-config client.properties --create --topic <topic_name>`
     - Topic names need to follow `<your_UserId>.topic_name` syntax or permission denied :(
     - On successful topic creation you'll be met with this message:
-    `Created topic <UserID>.geo.`
+    `Created topic <UserID>.geo`
 
 ## Setting Up Connector:
 
@@ -100,4 +100,34 @@
     - Under `MSK Connect -> Connectors` lets press the Create Connector
     - Copy script from notebook, add USERID, and bucket field, then at the bottom of the page add your EC2-Role
 
+## Configuring API Gateway for Batch Processing:
+
+- API Gateway facilitates sending data from local user emulation into MSK/EC2 (god this is confusing)
+Lets break this!
+
+- Inside API Gateway (AWS):
+    - In APIs, fid API associated with userID
+    - On `resource tab -> Create Resource` ensure proxy resource is turned on, leave the path as root & add resource name `{proxy+}` then create the resource
+    - Click this new {proxy+} and then `create method` here add:
+        - POST method Type
+        - HTTP Proxy
+        - ANY for the HTTP method
+        - Endpoint should be in this format: http://{your_EC2_DNS}/{proxy}
+    - Create the method & deploy the API!
+
+ - On EC2:
+    - Install the confluent package for REST proxy to connect to EC2 Client
+        - ```sudo wget https://packages.confluent.io/archive/7.2/confluent-7.2.0.tar.gz```
+        - ```tar -xvzf confluent-7.2.0.tar.gz ```
+    - From root dir of EC2:
+        - `cd confluent-7.2.0/etc/kafka-rest`
+        - `nano kafka-rest.properties`
+        - Uncomment out zookeeper.connect & zookeeper.servers
+        - Replace these with Bootstrap & Zokeeper strings from earlier
+        - Add code block in notebook to this file
+        - Add your EC2 ARN Role ( can be found in IAM, search for userID)
+    - Testing:
+        - Move to `confluent-7.2.0/bin`
+        - Run `./kafka-rest-start /home/ec2-user/confluent-7.2.0/etc/kafka-rest/kafka-rest.properties`
+        - Send Payload to API, check for 200 response & bucket to be populated with topic
 
