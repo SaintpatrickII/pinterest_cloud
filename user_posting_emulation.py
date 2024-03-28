@@ -87,7 +87,7 @@ def run_infinite_post_data_loop():
             user_res = json.dumps({
                 "records": [
                     {
-                    "value": geo_result
+                    "value": user_result
                     }
                 ]
             }, default=str)

@@ -137,3 +137,16 @@ Lets break this!
 - SET databricks formatter to False
 - Create mou nt parsing in s3 bucket credentials
 - Read & display dataframes based on three topic folders within S3
+
+## Batch Processing: AWS MWAA:
+
+AWS Managed Workflows for Apache Airflow - Simplifies scheduling for ETL scheduling i n AWS environment, scales workers & includes uilt in authentication, copy file from notebook & lets change some bits
+
+- Filename needs to follow `<user_id>_dag.py`
+- On databricks copy full path to notebook you want to schedule, add this to notebook path
+- Owner is your user_id
+- With DAG should be followed by your filename
+- Startdate is just python's datetime method inputiing todays date
+- Schedule interview is user readable @daily
+- To find cluster_id go `Databricks -> compute (left hand sidebar) -> click your cluster -> on ... icon (top right) click view JSON & copy cluster_id`
+- Finally upload to S3 bucket under `mwaa-dags-bucket/dags`
